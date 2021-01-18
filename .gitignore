@@ -5,6 +5,7 @@
 
 ### Custom
 /data-gatherer/output/
+/data-gatherer/logs/
 
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
