@@ -2,13 +2,15 @@ import cgi
 import logging
 import os
 import shutil
+import sys
 
 import requests
 
-from definitions import OUTPUT_DIR
+from definitions import OUTPUT_DIR, LOG_DIR
 
-logging.basicConfig(format="'%(asctime)s' %(name)s : %(message)s'", level=logging.INFO)
+logging.basicConfig(filename=os.path.join(LOG_DIR, 'logs.txt'), filemode='a', format="'%(asctime)s' %(name)s : %(message)s'", level=logging.INFO)
 logger = logging.getLogger('main')
+logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
 def download_data():
@@ -22,7 +24,7 @@ def download_data():
     file_path = os.path.join(OUTPUT_DIR, file_name)
 
     if os.path.exists(file_path) and os.path.isfile(file_path):
-        logging.info("A file with name '{}' already exists at '{}', not downloading the file again.".format(file_name, file_path))
+        logger.info("A file with name '{}' already exists at '{}', not downloading the file again.".format(file_name, file_path))
         return
 
     with open(file_path, 'wb') as file:
