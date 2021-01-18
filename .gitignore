@@ -3,6 +3,9 @@
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
 
+### Custom
+/data-gatherer/output/
+
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 
