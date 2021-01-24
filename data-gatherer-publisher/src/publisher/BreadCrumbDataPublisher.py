@@ -36,7 +36,7 @@ class BreadCrumbDataPublisher:
 
         for record in breadcrumb_records:
             self._producer.produce(topic, value=json.dumps(record), on_delivery=callback)
-            self._producer.poll(1)
+            self._producer.poll(0)
 
         self._producer.flush()
 
