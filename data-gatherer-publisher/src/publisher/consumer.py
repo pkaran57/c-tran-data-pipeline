@@ -1,16 +1,14 @@
-#!/home/ad35/env/bin/python
-
-from confluent_kafka import Consumer
 import json
-import ccloud_lib
+import os 
+import sys
+
+from confluent_kafka.cimpl import Consumer
 from publisher.kafka.KafkaHelper import KafkaHelper
 
 if __name__ == '__main__':
 
-    args = ccloud_lib.parse_args()
     kafka_configs = KafkaHelper.get_kafka_configs()
-    topic = args.topic
-
+    topic = 'breadcrumb-data'
     consumer = Consumer(kafka_configs)
 
     consumer.subscribe([topic])
