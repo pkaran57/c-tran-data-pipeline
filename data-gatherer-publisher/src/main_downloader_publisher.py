@@ -12,7 +12,7 @@ logging.basicConfig(filename=os.path.join(LOG_DIR, 'logs.txt'),
                     filemode='a', format="'%(asctime)s' %(name)s : %(message)s'",
                     level=logging.INFO)
 
-logger = logging.getLogger('main_download_publish')
+logger = logging.getLogger('main_downloader_publisher')
 logger.addHandler(logging.StreamHandler(sys.stdout))
 
 if __name__ == '__main__':

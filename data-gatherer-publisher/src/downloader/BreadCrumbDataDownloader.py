@@ -3,18 +3,15 @@ import json
 import logging
 import os
 import shutil
-import sys
 
 import requests
 
-from definitions import OUTPUT_DIR
+from definitions import DOWNLOADER_OUTPUT_DIR
 
 
 class BreadCrumbDataDownloader:
     _BREADCRUMB_DATA_SERVICE_URL = 'http://rbi.ddns.net/getBreadCrumbData'
-
     _logger = logging.getLogger('BreadCrumbDataDownloader')
-    _logger.addHandler(logging.StreamHandler(sys.stdout))
 
     @classmethod
     def download_daily_data(cls):
@@ -28,7 +25,7 @@ class BreadCrumbDataDownloader:
         assert response.ok, "Got the following response code on downloading file: {}".format(response.status_code)
 
         file_name = cgi.parse_header(response.headers['content-disposition'])[1]['filename']
-        file_path = os.path.join(OUTPUT_DIR, file_name)
+        file_path = os.path.join(DOWNLOADER_OUTPUT_DIR, file_name)
 
         if os.path.exists(file_path) and os.path.isfile(file_path):
             cls._logger.info("A file with name '{}' already exists at '{}', not downloading the file again.".format(file_name, file_path))

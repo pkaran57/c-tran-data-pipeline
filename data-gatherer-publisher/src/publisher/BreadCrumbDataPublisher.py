@@ -2,10 +2,10 @@ import json
 import logging
 import sys
 
-from confluent_kafka.admin import AdminClient
 from confluent_kafka.cimpl import Producer
 
-from publisher.kafka.KafkaHelper import KafkaHelper
+from definitions import BREADCRUMB_DATA_TOPIC
+from kafka.KafkaHelper import KafkaHelper
 
 
 class BreadCrumbDataPublisher:
@@ -14,10 +14,9 @@ class BreadCrumbDataPublisher:
 
     def __init__(self):
         kafka_configs = KafkaHelper.get_kafka_configs()
-        self._adminClient = AdminClient(kafka_configs)
         self._producer = Producer(kafka_configs)
 
-    def publish_breadcrumb_records(self, breadcrumb_records, topic='breadcrumb-data'):
+    def publish_breadcrumb_records(self, breadcrumb_records, topic=BREADCRUMB_DATA_TOPIC):
         self._logger.info("Publishing {} breadcrumb records to {} topic ...".format(len(breadcrumb_records), topic))
         delivered_records = 0
 
