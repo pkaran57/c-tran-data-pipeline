@@ -10,7 +10,7 @@ from publisher.BreadCrumbDataPublisher import BreadCrumbDataPublisher
 
 logging.basicConfig(filename=os.path.join(LOG_DIR, 'logs.txt'),
                     filemode='a', format="'%(asctime)s' %(name)s : %(message)s'",
-                    level=logging.INFO)
+                    level=logging.DEBUG)
 
 logger = logging.getLogger('main_publish')
 logger.addHandler(logging.StreamHandler(sys.stdout))
