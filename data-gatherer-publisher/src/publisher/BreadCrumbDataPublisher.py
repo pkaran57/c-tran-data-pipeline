@@ -30,9 +30,9 @@ class BreadCrumbDataPublisher:
                 self._logger.error("Failed to deliver message: %s: %s" % (str(msg), str(err)))
             else:
                 delivered_records += 1
-                self._logger.debug("Produced record to topic {} partition [{}] @ offset {}"
+                self._logger.debug("Published record to topic {} partition [{}] @ offset {}"
                                    .format(msg.topic(), msg.partition(), msg.offset()))
-                self._logger.info('Produced records count: {}'.format(delivered_records))
+                self._logger.info('Published records count: {}'.format(delivered_records))
 
         for record in breadcrumb_records:
             self._producer.produce(topic, value=json.dumps(record), on_delivery=callback)
