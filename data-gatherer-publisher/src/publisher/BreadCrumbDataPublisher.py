@@ -1,6 +1,5 @@
 import json
 import logging
-import sys
 
 from confluent_kafka.cimpl import Producer
 
@@ -10,7 +9,6 @@ from kafka.KafkaHelper import KafkaHelper
 
 class BreadCrumbDataPublisher:
     _logger = logging.getLogger('BreadCrumbDataPublisher')
-    _logger.addHandler(logging.StreamHandler(sys.stdout))
 
     def __init__(self):
         kafka_configs = KafkaHelper.get_kafka_configs()

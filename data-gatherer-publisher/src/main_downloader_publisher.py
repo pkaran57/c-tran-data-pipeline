@@ -8,9 +8,17 @@ from definitions import LOG_DIR
 from downloader.BreadCrumbDataDownloader import BreadCrumbDataDownloader
 from publisher.BreadCrumbDataPublisher import BreadCrumbDataPublisher
 
+LOG_FORMATTER = "'%(asctime)s' %(name)s : %(message)s'"
+
 logging.basicConfig(filename=os.path.join(LOG_DIR, 'logs.txt'),
-                    filemode='a', format="'%(asctime)s' %(name)s : %(message)s'",
+                    filemode='a', format=LOG_FORMATTER,
                     level=logging.INFO)
+
+root_logger = logging.getLogger()
+
+handler = logging.StreamHandler(sys.stdout)
+handler.setFormatter(logging.Formatter(LOG_FORMATTER))
+root_logger.addHandler(handler)
 
 logger = logging.getLogger('main_downloader_publisher')
 logger.addHandler(logging.StreamHandler(sys.stdout))

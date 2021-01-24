@@ -10,7 +10,6 @@ from publisher.BreadCrumbDataPublisher import BreadCrumbDataPublisher
 
 logging.basicConfig(format="'%(asctime)s' %(name)s : %(message)s'", level=logging.INFO)
 logger = logging.getLogger('main_publish')
-logger.addHandler(logging.StreamHandler(sys.stdout))
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
