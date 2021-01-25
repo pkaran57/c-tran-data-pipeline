@@ -2,26 +2,15 @@
 
 import logging
 import os
-import sys
 
-from definitions import LOG_DIR
 from downloader.BreadCrumbDataDownloader import BreadCrumbDataDownloader
+from log.LoggerHelper import init_root_logger
 from publisher.BreadCrumbDataPublisher import BreadCrumbDataPublisher
 
-LOG_FORMATTER = "'%(asctime)s' %(name)s : %(message)s'"
+file_name = os.path.basename(__file__)
 
-logging.basicConfig(filename=os.path.join(LOG_DIR, 'logs.txt'),
-                    filemode='a', format=LOG_FORMATTER,
-                    level=logging.INFO)
-
-root_logger = logging.getLogger()
-
-handler = logging.StreamHandler(sys.stdout)
-handler.setFormatter(logging.Formatter(LOG_FORMATTER))
-root_logger.addHandler(handler)
-
-logger = logging.getLogger('main_downloader_publisher')
-logger.addHandler(logging.StreamHandler(sys.stdout))
+init_root_logger(file_name)
+logger = logging.getLogger(file_name)
 
 if __name__ == '__main__':
     downloaded_data_file_path = BreadCrumbDataDownloader.download_daily_data()

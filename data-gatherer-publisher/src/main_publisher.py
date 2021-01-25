@@ -6,10 +6,13 @@ import sys
 
 from definitions import DOWNLOADER_OUTPUT_DIR
 from downloader.BreadCrumbDataDownloader import BreadCrumbDataDownloader
+from log.LoggerHelper import init_root_logger
 from publisher.BreadCrumbDataPublisher import BreadCrumbDataPublisher
 
-logging.basicConfig(format="'%(asctime)s' %(name)s : %(message)s'", level=logging.INFO)
-logger = logging.getLogger('main_publish')
+file_name = os.path.basename(__file__)
+
+init_root_logger(file_name)
+logger = logging.getLogger(file_name)
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
