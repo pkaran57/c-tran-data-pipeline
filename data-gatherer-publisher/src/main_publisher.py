@@ -11,7 +11,7 @@ from publisher.BreadCrumbDataPublisher import BreadCrumbDataPublisher
 
 file_name = os.path.basename(__file__)
 
-init_root_logger(file_name)
+init_root_logger(file_name, logging.DEBUG)
 logger = logging.getLogger(file_name)
 
 if __name__ == '__main__':
