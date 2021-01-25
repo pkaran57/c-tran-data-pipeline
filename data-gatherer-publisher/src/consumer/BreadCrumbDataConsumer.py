@@ -33,8 +33,8 @@ class BreadCrumbDataConsumer:
                         self._logger.error('error: {}'.format(msg.error()))
                     else:
                         consumed_records_count += 1
-                        message_data = str(msg.value())
-                        messages_output_file.write(message_data)
+                        message_data = msg.value().decode("utf-8")
+                        messages_output_file.write(message_data + '\n')
                         self._logger.info('Number of messages consumed = {}'.format(consumed_records_count))
             finally:
                 self._consumer.close()
