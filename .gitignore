@@ -4,9 +4,9 @@
 # website: http://jupyter.org/
 
 ### Custom
-/data-gatherer-publisher/data-downloader-output/
-/data-gatherer-publisher/data-consumer-output/
-/data-gatherer-publisher/logs/
+/data-downloader-output/
+/data-consumer-output/
+/logs/
 
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
