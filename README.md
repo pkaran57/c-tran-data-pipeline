@@ -1,4 +1,4 @@
-# C-Tran Data Pipeline Project
+# C-Tran Data Pipeline
 
 [Project Description](https://sites.google.com/pdx.edu/data-engineering-w21/project)
 
