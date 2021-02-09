@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 requests = "*"
 confluent-kafka = "*"
+SQLAlchemy = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.8"
