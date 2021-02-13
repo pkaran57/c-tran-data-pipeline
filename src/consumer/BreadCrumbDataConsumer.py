@@ -5,6 +5,7 @@ from confluent_kafka.cimpl import Consumer
 
 from definitions import CONSUMER_OUTPUT_DIR, BREADCRUMB_DATA_TOPIC
 from kafka.KafkaHelper import KafkaHelper
+from validator import Validator
 
 
 class BreadCrumbDataConsumer:
@@ -34,7 +35,9 @@ class BreadCrumbDataConsumer:
                     else:
                         consumed_records_count += 1
                         message_data = msg.value().decode("utf-8")
-                        messages_output_file.write(message_data + '\n')
+                        clean_msg = Validator.transform_data(message_data)
+                #        Validator.validate_data(clean_msg)
+                        messages_output_file.write(clean_msg + '\n')
                         self._logger.info('Number of messages consumed = {}'.format(consumed_records_count))
             finally:
                 self._consumer.close()
