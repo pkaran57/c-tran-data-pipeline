@@ -2,11 +2,10 @@ import cgi
 import json
 import logging
 import os
+import requests
 import shutil
 
-import requests
-
-from definitions import DOWNLOADER_OUTPUT_DIR
+from src.definitions import DOWNLOADER_OUTPUT_DIR
 
 
 class BreadCrumbDataDownloader:

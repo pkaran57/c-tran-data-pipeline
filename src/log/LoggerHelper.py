@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 
-from definitions import LOG_DIR
+from src.definitions import LOG_DIR
 
 LOG_FORMATTER = "'%(asctime)s' %(name)s : %(message)s'"
 
