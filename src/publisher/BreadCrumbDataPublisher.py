@@ -1,10 +1,9 @@
 import json
 import logging
-
 from confluent_kafka.cimpl import Producer
 
-from definitions import BREADCRUMB_DATA_TOPIC
-from kafka.KafkaHelper import KafkaHelper
+from src.definitions import BREADCRUMB_DATA_TOPIC
+from src.kafka.KafkaHelper import KafkaHelper
 
 
 class BreadCrumbDataPublisher:

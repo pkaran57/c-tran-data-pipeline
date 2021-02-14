@@ -1,7 +1,7 @@
 import os
 from configparser import ConfigParser
 
-from definitions import CONFIGS_DIR
+from src.definitions import CONFIGS_DIR
 
 
 class KafkaHelper:

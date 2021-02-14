@@ -4,10 +4,10 @@ import logging
 import os
 import sys
 
-from definitions import DOWNLOADER_OUTPUT_DIR
-from downloader.BreadCrumbDataDownloader import BreadCrumbDataDownloader
-from log.LoggerHelper import init_root_logger
-from publisher.BreadCrumbDataPublisher import BreadCrumbDataPublisher
+from src.definitions import DOWNLOADER_OUTPUT_DIR
+from src.downloader.BreadCrumbDataDownloader import BreadCrumbDataDownloader
+from src.log.LoggerHelper import init_root_logger
+from src.publisher.BreadCrumbDataPublisher import BreadCrumbDataPublisher
 
 file_name = os.path.basename(__file__)
 
