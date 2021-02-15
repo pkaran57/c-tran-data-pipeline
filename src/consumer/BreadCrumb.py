@@ -1,7 +1,7 @@
 from datetime import date, datetime, timedelta
 from pydantic import BaseModel, validator
 
-from src.postgres.models import Vehicle, Trip, Stop, Event
+from src.postgres.models import models
 
 
 class BreadCrumb(BaseModel):
@@ -23,8 +23,8 @@ class BreadCrumb(BaseModel):
     @validator('direction')
     def validate_direction(cls, direction):
         if direction:
-            if direction < 0 or direction > 360:
-                raise ValueError('direction should be between 0 and 360 but is {}'.format(direction))
+            if direction < 0 or direction > 359:
+                raise ValueError('direction should be between 0 and 359 but is {}'.format(direction))
         return direction
 
     @validator('gps_latitude')
@@ -55,26 +55,18 @@ class BreadCrumb(BaseModel):
     class Config:
         alias_generator = lambda field_key: field_key.upper()
 
-    def get_vehicle(self):
-        return Vehicle(id=self.vehicle_id)
+    def get_bread_crumb(self):
+        return models.BreadCrumb(tstamp=self.get_timestamp(),
+                                 latitude=self.gps_latitude,
+                                 longitude=self.gps_longitude,
+                                 direction=self.direction,
+                                 speed=self.velocity,
+                                 trip_id=self.event_no_trip)
 
     def get_trip(self):
-        return Trip(id=self.event_no_trip, vehicle_id=self.vehicle_id, date=self.opd_date)
+        return models.Trip(trip_id=self.event_no_trip,
+                           vehicle_id=self.vehicle_id)
 
-    def get_stop(self):
-        return Stop(id=self.event_no_stop, trip_id=self.event_no_trip)
-
-    def get_event(self):
-        opd_date = self.opd_date
-        time = datetime(opd_date.year, opd_date.month, opd_date.day) + timedelta(0, self.act_time)
-
-        return Event(stop_id=self.event_no_stop,
-                     time=time,
-                     meters=self.meters,
-                     velocity=self.velocity,
-                     direction=self.direction,
-                     gps_longitude=self.gps_longitude,
-                     gps_latitude=self.gps_latitude,
-                     gps_satellites=self.gps_satellites,
-                     gps_hdop=self.gps_hdop,
-                     schedule_deviation=self.schedule_deviation)
+    def get_timestamp(self):
+        time = datetime(self.opd_date.year, self.opd_date.month, self.opd_date.day) + timedelta(0, self.act_time)
+        return time
