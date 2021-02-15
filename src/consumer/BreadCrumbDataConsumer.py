@@ -34,7 +34,7 @@ class BreadCrumbDataConsumer:
                 while True:
 
                     duration_from_last_saved_to_db = datetime.now() - last_saved_to_db
-                    if len(breadcrumbs) >= 50_000 or (len(breadcrumbs) > 0 and duration_from_last_saved_to_db.total_seconds() > (60 * 3)):
+                    if len(breadcrumbs) >= 50_000 or (len(breadcrumbs) > 0 and duration_from_last_saved_to_db.total_seconds() > (60 * 2)):
                         self._bread_crumb_repo.bulk_save_breadcrumbs(breadcrumbs)
                         records_saved_to_db_count += len(breadcrumbs)
                         breadcrumbs.clear()
