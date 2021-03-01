@@ -13,6 +13,9 @@ psycopg2 = "*"
 pydantic = "*"
 sqlalchemy-repr = "*"
 tqdm = "*"
+pandas = "*"
+lxml = "*"
+beautifulsoup4 = "*"
 
 [requires]
 python_version = "3.8"

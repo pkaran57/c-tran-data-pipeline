@@ -3,8 +3,8 @@
 import logging
 import os
 
-from consumer.BreadCrumbDataConsumer import BreadCrumbDataConsumer
 from log.LoggerHelper import init_root_logger
+from src.consumer.BreadCrumbDataConsumer import BreadCrumbDataConsumer
 
 file_name = os.path.basename(__file__)
 

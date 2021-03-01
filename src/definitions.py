@@ -7,3 +7,4 @@ CONFIGS_DIR = os.path.join(ROOT_DIR, 'configs')
 LOG_DIR = os.path.join(ROOT_DIR, 'logs')
 
 BREADCRUMB_DATA_TOPIC = 'breadcrumb-data-topic'
+STOP_EVENT_TOPIC = 'stop-event-topic'

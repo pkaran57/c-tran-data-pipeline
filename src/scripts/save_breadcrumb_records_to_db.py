@@ -34,4 +34,4 @@ if __name__ == '__main__':
                 continue
 
         bread_crumb_repo = BreadCrumbRepository()
-        bread_crumb_repo.bulk_save_breadcrumbs(breadcrumbs)
+        bread_crumb_repo.bulk_save_breadcrumbs(breadcrumbs, None)
