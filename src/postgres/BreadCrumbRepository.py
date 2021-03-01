@@ -50,10 +50,13 @@ class BreadCrumbRepository:
                 return dict(trip_id=trip_id,
                             route_id=trip_stop['route_id'].item(),
                             vehicle_id=vehicle_id,
-                            service_key=ServiceType.Sunday.value
+                            service_key=ServiceType.Sunday.value,
+                            direction=None
                             )
         else:
             return dict(trip_id=trip_id,
+                        route_id=None,
                         vehicle_id=vehicle_id,
-                        service_key=ServiceType.Sunday.value
+                        service_key=ServiceType.Sunday.value,
+                        direction=None
                         )
