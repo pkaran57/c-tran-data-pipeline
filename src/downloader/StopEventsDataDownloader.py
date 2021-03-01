@@ -20,9 +20,6 @@ class StopEventsDataDownloader:
         :return: path of file that the data was downloaded to, None if the data was already downloaded prior to this method call
         """
         file_path = cls._get_file_path()
-        if os.path.exists(file_path) and os.path.isfile(file_path):
-            cls._logger.info("A file with stop events already exists at '{}', not downloading the file again.".format(file_path))
-            return None
 
         cls._logger.info('Starting download ...')
 
