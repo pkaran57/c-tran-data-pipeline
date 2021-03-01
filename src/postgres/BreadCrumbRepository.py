@@ -24,7 +24,9 @@ class BreadCrumbRepository:
             unique_trips = {(breadcrumb.event_no_trip, breadcrumb.vehicle_id) for breadcrumb in breadcrumbs}
 
             with Session(self._engine, autoflush=False) as session:
-                session.execute(insert(Trip).values([self._get_trips_dict(trip, trips_stop_data) for trip in unique_trips]).on_conflict_do_nothing())
+                trips = [self._get_trips_dict(trip[0], trip[1], trips_stop_data) for trip in unique_trips]
+
+                session.execute(insert(Trip).values(trips).on_conflict_do_nothing())
                 session.bulk_save_objects([breadcrumb.get_bread_crumb() for breadcrumb in breadcrumbs])
 
                 session.commit()
@@ -32,12 +34,26 @@ class BreadCrumbRepository:
 
     @staticmethod
     def _get_trips_dict(trip_id, vehicle_id, trips_stop_data):
-        trip_stop = trips_stop_data[trip_id]
-        assert trip_stop, 'No trip stop found for trip ID ' + trip_id
+        if str(trip_id) in trips_stop_data.keys():
 
-        return dict(trip_id=trip_id,
-                    route_id=trip_stop['route_id'],
-                    vehicle_id=vehicle_id,
-                    service_key=ServiceType.Sunday,
-                    direction=TripDirType.Out if trip_stop['direction'] else TripDirType.In
-                    )
+            trip_stop = trips_stop_data[str(trip_id)]
+            assert trip_stop, 'No trip stop found for trip ID ' + trip_id
+
+            if trip_stop['direction'].item() == 0 or trip_stop['direction'].item() == 1:
+                return dict(trip_id=trip_id,
+                            route_id=trip_stop['route_id'].item(),
+                            vehicle_id=vehicle_id,
+                            service_key=ServiceType.Sunday.value,
+                            direction=TripDirType.Back.value if trip_stop['direction'].item() else TripDirType.Out.value
+                            )
+            else:
+                return dict(trip_id=trip_id,
+                            route_id=trip_stop['route_id'].item(),
+                            vehicle_id=vehicle_id,
+                            service_key=ServiceType.Sunday.value
+                            )
+        else:
+            return dict(trip_id=trip_id,
+                        vehicle_id=vehicle_id,
+                        service_key=ServiceType.Sunday.value
+                        )
