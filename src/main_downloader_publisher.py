@@ -1,7 +1,7 @@
 # Download daily breadcrumb data and publish it to Kafka topic
-
 import logging
 import os
+import time
 
 from downloader.BreadCrumbDataDownloader import BreadCrumbDataDownloader
 from log.LoggerHelper import init_root_logger
@@ -22,6 +22,9 @@ if __name__ == '__main__':
         downloader = StopEventsDataDownloader()
         stp_events = downloader.download_and_get_daily_stop_events()
         StopEventsDataPublisher().publish_stop_event_records(stp_events)
+
+        # sleep for 1 min before publishing breadcrumb data so that consumer can consume all stop events
+        time.sleep(60)
 
         breadcrumb_records = BreadCrumbDataDownloader.load_downloaded_data(downloaded_data_file_path)
         BreadCrumbDataPublisher().publish_breadcrumb_records(breadcrumb_records)
