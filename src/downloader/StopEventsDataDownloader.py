@@ -27,7 +27,15 @@ class StopEventsDataDownloader:
         response = requests.get(cls._ENDPOINT_URL)
         assert response.ok, "Got the following response code on downloading file: {}".format(response.status_code)
 
-        soup = BeautifulSoup(response.content, 'lxml')
+        stop_events_dict = cls._get_stop_events_dict(response.content)
+        with open(file_path, 'w') as file:
+            json.dump(stop_events_dict, file)
+
+        return stop_events_dict
+
+    @classmethod
+    def _get_stop_events_dict(cls, html):
+        soup = BeautifulSoup(html, 'lxml')
         stop_events_dict = dict()
         for tag in soup.find_all('table'):
             trip_id = re.search('Stop Events for trip (.+?) for today', str(tag.previous)).group(1)
@@ -37,10 +45,6 @@ class StopEventsDataDownloader:
             assert trip_df is not None
 
             stop_events_dict[trip_id] = trip_df.to_json(orient="records")
-
-        with open(file_path, 'w') as file:
-            json.dump(stop_events_dict, file)
-
         return stop_events_dict
 
     @classmethod
@@ -53,12 +57,5 @@ class StopEventsDataDownloader:
 
     @classmethod
     def load_downloaded_data(cls, data_file_path):
-        with open(data_file_path) as data_file:
-            data = json.load(data_file)
-            cls._logger.info('Found {} records from {} file'.format(len(data), data_file))
-
-            parsed_data = dict()
-            for key, value in data.items():
-                parsed_data[key] = pd.read_json(value)
-
-            return parsed_data
+        with open(data_file_path, mode='rb') as data_file:
+            return cls._get_stop_events_dict(data_file.read())

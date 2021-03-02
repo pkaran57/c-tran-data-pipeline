@@ -45,7 +45,7 @@ class BreadCrumbRepository:
             return dict(trip_id=trip_id,
                         route_id=trip_stop['route_id'].item(),
                         vehicle_id=vehicle_id,
-                        service_key=trip_id._get_service_key(trip_stop),
+                        service_key=BreadCrumbRepository._get_service_key(trip_stop),
                         direction=direction
                         )
         else:
@@ -58,9 +58,9 @@ class BreadCrumbRepository:
 
     @staticmethod
     def _get_service_key(trip_stop):
-        if trip_stop['direction'] == 'U':
+        if trip_stop['service_key'] == 'U':
             return ServiceType.Sunday.value
-        elif trip_stop['direction'] == 'W':
+        elif trip_stop['service_key'] == 'W':
             return ServiceType.Weekday.value
         else:
             return ServiceType.Saturday.value
