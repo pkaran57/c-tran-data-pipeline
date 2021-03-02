@@ -1,11 +1,12 @@
 import json
 import logging
 import os
-import pandas as pd
 import re
+from datetime import datetime
+
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
 
 from src.definitions import DOWNLOADER_OUTPUT_DIR
 
@@ -55,4 +56,9 @@ class StopEventsDataDownloader:
         with open(data_file_path) as data_file:
             data = json.load(data_file)
             cls._logger.info('Found {} records from {} file'.format(len(data), data_file))
-            return data
+
+            parsed_data = dict()
+            for key, value in data.items():
+                parsed_data[key] = pd.read_json(value)
+
+            return parsed_data

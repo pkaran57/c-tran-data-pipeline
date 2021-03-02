@@ -1,7 +1,8 @@
 import logging
+from typing import List
+
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
-from typing import List
 
 from src.consumer.BreadCrumb import BreadCrumb
 from src.postgres.PostGresDBEngineFactory import PostGresDBEngineFactory
@@ -39,24 +40,35 @@ class BreadCrumbRepository:
             trip_stop = trips_stop_data[str(trip_id)]
             assert trip_stop, 'No trip stop found for trip ID ' + trip_id
 
-            if trip_stop['direction'].item() == 0 or trip_stop['direction'].item() == 1:
-                return dict(trip_id=trip_id,
-                            route_id=trip_stop['route_id'].item(),
-                            vehicle_id=vehicle_id,
-                            service_key=ServiceType.Sunday.value,
-                            direction=TripDirType.Back.value if trip_stop['direction'].item() else TripDirType.Out.value
-                            )
-            else:
-                return dict(trip_id=trip_id,
-                            route_id=trip_stop['route_id'].item(),
-                            vehicle_id=vehicle_id,
-                            service_key=ServiceType.Sunday.value,
-                            direction=None
-                            )
+            direction = BreadCrumbRepository._get_direction(trip_stop)
+
+            return dict(trip_id=trip_id,
+                        route_id=trip_stop['route_id'].item(),
+                        vehicle_id=vehicle_id,
+                        service_key=trip_id._get_service_key(trip_stop),
+                        direction=direction
+                        )
         else:
             return dict(trip_id=trip_id,
                         route_id=None,
                         vehicle_id=vehicle_id,
-                        service_key=ServiceType.Sunday.value,
+                        service_key=None,
                         direction=None
                         )
+
+    @staticmethod
+    def _get_service_key(trip_stop):
+        if trip_stop['direction'] == 'U':
+            return ServiceType.Sunday.value
+        elif trip_stop['direction'] == 'W':
+            return ServiceType.Weekday.value
+        else:
+            return ServiceType.Saturday.value
+
+    @staticmethod
+    def _get_direction(trip_stop):
+        if trip_stop['direction'].item() == 0 or trip_stop['direction'].item() == 1:
+            direction = TripDirType.Back.value if trip_stop['direction'].item() else TripDirType.Out.value
+        else:
+            direction = None
+        return direction
